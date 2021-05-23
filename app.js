@@ -1,8 +1,10 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var createError         = require('http-errors');
+var express             = require('express');
+var path                = require('path');
+var cookieParser        = require('cookie-parser');
+var logger              = require('morgan');
+
+const expressLayout     = require('express-ejs-layouts');
 
 const database    = require('./config/databse')
 
@@ -13,7 +15,7 @@ const movieRouter = require('./routes/movie');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.use(expressLayout)
 app.set('view engine', 'ejs');
 
 // Connection Database
