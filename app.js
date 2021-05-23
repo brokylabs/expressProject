@@ -23,12 +23,12 @@ database.connection.on('error', console.error.bind(console, 'MongoDB Connection 
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', usersRouter);
 app.use('/movies', movieRouter);
 
 // catch 404 and forward to error handler
