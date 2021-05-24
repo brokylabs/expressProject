@@ -1,13 +1,58 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt    = require('bcrypt')
 
 // Import userSchema
 const User    = require('../models/UserSchema')
 
-// Login Page
+// GET Login Page
 router.get('/login', function(req, res, next) {
   res.render('login', { title : 'Login Page'})
 });
+
+// POST Login Page
+router.post('/login', function(req, res, next) {
+  const { email, password } = req.body
+
+  console.log(req.body);
+  let errors = [];
+  if(!email || !password) {
+    errors.push({msg : "Silahkan Lengkapi Data anda, Email & Password"})
+    console.log("Silahkan Lengkapi Data anda, Email & Password");
+  }
+  if(errors.length > 0){
+    res.render('login', {
+      errors,
+      email,
+      password
+    })
+  } else {
+    User.findOne({email : email}).then(
+      async(user) => {
+        if(user){
+          if(await bcrypt.compare(password, user.password)){
+            console.log(user);
+            console.log('cek' + password + ' || ' + user.password);
+            res.redirect('/dashboard')
+          } else {
+              errors.push({msg : "Password Anda Salah"})
+              console.log("Password Anda Salah")
+              res.render('login', {errors})
+            } 
+        }else {
+          errors.push({msg : "Email Anda Salah"})
+          console.log("Email Anda Salah")
+          res.render('login', {errors})
+        }
+      } 
+    ).catch((err) => {
+      errors.push({msg : "Internal Server Error"})
+      console.log("Internal Server Error " + err.message)
+    })
+  }
+});
+
+
 
 // Register Page
 // Get Register

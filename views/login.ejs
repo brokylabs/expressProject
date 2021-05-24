@@ -1,11 +1,25 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    
-  </body>
-</html>
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3"><i class="fas fa-sign-in-alt"></i> Login </h1>
+
+      <!-- Import EJS Message / Errors / Warning -->
+      <% include ./message  %>
+      <form action="/auth/login" method="post">
+        <div>
+          <label for="email"> Email </label>
+          <input type="email" name="email" id="email" placeholder="Enter Email" class="form-control">
+        </div>
+        <div>
+          <label for="password"> Password </label>
+          <input type="password" name="password" id="password" placeholder="Enter Password" class="form-control">
+        </div>
+        <br>
+        <button type="submit" value="" class="btn btn-primary btn-block"> Login </button>
+      </form>
+      <p class="lead mt-4">
+        No Account? <a href="/auth/register">Register</a>
+      </p>
+    </div>
+  </div>
+</div>
