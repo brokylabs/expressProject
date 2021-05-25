@@ -1,7 +1,6 @@
 const express           = require('express');
-const { Mongoose } = require('mongoose');
-const { route } = require('./users');
 const router            = express.Router();
+const movies            = require('../models/MovieSchema')
 
 // Get All Movies 
 router.get('/', function(req, res, next){
@@ -20,7 +19,28 @@ router.get('/update/:movieid', function(req, res, next){
 
 // Action Create 
 router.post('/create', function(req, res){
+    // console.log(req.body);
+    const {name, date} = req.body
 
+    let errors = [];
+    if(!name || !date){
+        errors.push({ msg : 'Silahkan Lengkapi Data yang dibutuhkan'})
+    }
+
+    if(errors.length > 0){
+        res.render('movie/createMovies', {errors});
+    } else {
+        const newMovie = movies({
+            name,
+            released_on : date
+        })
+        newMovie.save().then(
+            movie => {
+                errors.push({msg : 'Data Movies Berhasil di tambah'})
+                res.render('movie/createMovies', {errors})
+            }
+        ).catch(err => console.log(err))
+    }
 })
 
 // Action Update
