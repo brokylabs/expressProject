@@ -113,6 +113,11 @@ router.post('/register', function(req, res, next){
   }
 })
 
+// Logout
+router.get('/logout', function(req, res){
+  res.redirect('/');
+})
+
 
 
 module.exports = router;
