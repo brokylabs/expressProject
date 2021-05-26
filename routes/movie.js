@@ -65,13 +65,15 @@ router.post('/create', function(req, res){
 })
 
 // Action Update
-router.put('/update/:movieid', function(req, res){
+router.post('/update', function(req, res){
 
 })
 
 // Action Delete
-router.delete('/delete/:movieid', function(req, res){
-
+router.get('/delete/:movieid', function(req, res){
+    movies.findByIdAndDelete(req.params.movieid, function(){
+        res.redirect('/movies')
+    })
 })
 
 
