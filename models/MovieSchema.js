@@ -9,7 +9,7 @@ const MovieSchema       = new mongoose.Schema({
         trim : true
     },
     released_on : {
-        type : Date,
+        type : String,
         require : true,
         trim : true
     }

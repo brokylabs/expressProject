@@ -1,11 +1,12 @@
 const express           = require('express');
 const router            = express.Router();
-const movies            = require('../models/MovieSchema')
+const Movies            = require('../models/MovieSchema')
+const moment            = require('moment')
 
 // Get All Movies 
 router.get('/', function(req, res, next){
     const listMovies = [];
-    movies.find(function(err, movies){
+    Movies.find(function(err, movies){
         if(movies){
             for(let data of movies){
                 listMovies.push({
@@ -34,8 +35,22 @@ router.get('/create', function(req, res, next){
 })
 
 // Update Movies
-router.get('/update/:movieid', function(req, res, next){
-    res.render('movie/updateMovies', { title : 'Update Movie Page', movieid: req. params.movieid})
+router.get('/update/:movieId', function(req, res, next){
+    Movies.findById(req.params.movieId, function(err, movieInfo){
+
+        var newDate = moment(movieInfo.released_on).format("YYYY-MM-DD");
+      
+        if (movieInfo){
+            console.log(movieInfo);
+            res.render('movie/updateMovies', {
+                movies : movieInfo,
+                newDate,
+                
+            })
+            console.log("Database :" + movieInfo.released_on);
+            console.log("MomentJS : " + newDate);
+        }
+    })
 })
 
 // Action Create 
@@ -51,7 +66,7 @@ router.post('/create', function(req, res){
     if(errors.length > 0){
         res.render('movie/createMovies', {errors});
     } else {
-        const newMovie = movies({
+        const newMovie = Movies({
             name,
             released_on : date
         })
@@ -66,12 +81,29 @@ router.post('/create', function(req, res){
 
 // Action Update
 router.post('/update', function(req, res){
+    
+    let errors = [];
 
+    Movies.findOneAndUpdate(req.body.id, {name : req.body.name, released_on : req.body.date },
+        function(err){
+            if(err){
+                console.log(err);
+            } else {
+                errors.push({msg : 'Data Berhasil Di Update!'});
+                var newMovie = {_id : req.body.id, name : req.body.name }
+                var newDate = moment(req.body.date).format("YYYY-MM-DD");
+                res.render('movie/updateMovies',{
+                    movies : newMovie,
+                    newDate,
+                    errors
+                })
+            }
+        })
 })
 
 // Action Delete
-router.get('/delete/:movieid', function(req, res){
-    movies.findByIdAndDelete(req.params.movieid, function(){
+router.get('/delete/:movieId', function(req, res){
+    Movies.findByIdAndDelete(req.params.movieId, function(){
         res.redirect('/movies')
     })
 })
