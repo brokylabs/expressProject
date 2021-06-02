@@ -7,7 +7,8 @@ const mongoDB           = 'mongodb://localhost/firstApp'
 mongoose.connect(mongoDB, {
     useNewUrlParser : true,
     useUnifiedTopology : true,
-    useFindAndModify : true
+    useFindAndModify : false,
+    useCreateIndex : true
 }).then(() => console.log('mongoDB Connected!'));
 
 mongoose.Promise = global.Promise;

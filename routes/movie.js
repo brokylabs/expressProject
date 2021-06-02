@@ -5,7 +5,7 @@ const moment            = require('moment')
 
 // Get All Movies 
 router.get('/', function(req, res, next){
-    const listMovies = [];
+    let listMovies = [];
     Movies.find(function(err, movies){
         if(movies){
             for(let data of movies){
@@ -23,7 +23,7 @@ router.get('/', function(req, res, next){
                 name : '',
                 released_on : ''
             });
-            res.render('movie/all', {listMovies})
+            res.render('movie/allMovies', {listMovies})
         }
     })
     // res.render('movie/allMovies', { title : 'Get Movies Page'})

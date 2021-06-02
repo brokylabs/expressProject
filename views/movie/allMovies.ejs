@@ -1,14 +1,15 @@
 <% include ../header %> 
 
 <a href="movies/create" class="btn btn-primary">Add Movies</a>
-
+<br>
+<br>
 <% for(let data of listMovies){ %>
 <div class="card">
     <div class="card-header">
       <%= data.name %> 
     </div>
     <div class="card-body">
-      <h5 class="card-title">Tangal Tayang : <%= data.released_on %> </h5>
+      <h5 class="card-title">Tanggal Tayang : <%= data.released_on %> </h5>
       
       <a href="movies/update/<%= data.id %> " class="btn btn-primary">Edit</a>
       <a class="btn btn-primary" data-toggle="collapse" href="#data<%= data.id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -23,5 +24,6 @@
       <a href="movies/delete/<%= data.id %> " class="btn btn-primary">Delete</a>
     </div>
   </div>
+  <br>
 
 <% } %>  
